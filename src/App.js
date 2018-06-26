@@ -2,6 +2,23 @@ import React, { Component } from 'react';
 import './App.css';
 
 class App extends Component {
+  state = {
+    backgroundColor: '#ffffff',
+    textBeefColor: '#000000'
+  }
+
+  handleKeyUp = (event) => {
+    let reggie = /^[0-9a-f]+$/
+
+    if (event.target.value.length===6 && reggie.test(event.target.value)){
+      console.log(event.target.value)
+      this.setState({
+        backgroundColor: `#` + event.target.value,
+        textBeefColor: this.invertColor(event.target.value)
+      })
+    }
+  }
+
   invertColor(color) {
     // https://stackoverflow.com/questions/35969656/how-can-i-generate-the-opposite-color-according-to-current-color#35970186
     var r = parseInt(color.slice(0, 2), 16),
@@ -15,12 +32,14 @@ class App extends Component {
     return (
       <main
         style={{
-          backgroundColor: '#ffffff' /* Your code here */
+          backgroundColor: this.state.backgroundColor /* Your code here */
         }}
       >
         <input
+          onKeyUp={this.handleKeyUp}
           placeholder="000000"
-          style={{ color: '#000000' /* Your code here */ }}
+          style={{ color: this.state.textBeefColor /* Your code here */ }}
+          maxLength = '6'
         />
       </main>
     );
